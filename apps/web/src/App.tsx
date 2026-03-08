@@ -11,6 +11,8 @@ import DriversPage from './pages/DriversPage';
 import TrackingPage from './pages/TrackingPage';
 import FleetPage from './pages/FleetPage';
 import InventoryPage from './pages/InventoryPage';
+import CustomerPortal from './pages/CustomerPortal';
+import DriverApp from './pages/DriverApp';
 
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { user, isLoading } = useAuth();
@@ -37,6 +39,8 @@ const AppRoutes = () => {
       <Route path="/tracking" element={<ProtectedRoute><TrackingPage /></ProtectedRoute>} />
       <Route path="/fleet" element={<ProtectedRoute><FleetPage /></ProtectedRoute>} />
       <Route path="/inventory" element={<ProtectedRoute><InventoryPage /></ProtectedRoute>} />
+      <Route path="/customer-portal" element={<ProtectedRoute><CustomerPortal /></ProtectedRoute>} />
+      <Route path="/driver-app" element={<ProtectedRoute><DriverApp /></ProtectedRoute>} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
