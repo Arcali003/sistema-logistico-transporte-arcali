@@ -1,6 +1,6 @@
 import React from 'react';
-import { Truck, Users, Package, Map as MapIcon, FileText, AlertCircle, Clock, CheckCircle2 } from 'lucide-react';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import { Truck, Package, Map as MapIcon, AlertCircle, Clock, CheckCircle2, Info } from 'lucide-react';
+import { MapContainer, TileLayer, Marker, Popup, Polyline } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 
@@ -16,27 +16,32 @@ L.Icon.Default.mergeOptions({
   shadowUrl: markerShadow,
 });
 
-const PerformanceChart = ({ title, data, labels, colorClass }: { title: string, data: number[], labels: string[], colorClass: string }) => {
-  const max = Math.max(...data, 1);
+const PerformanceChart = ({ title, data, secondaryData, labels, colorClass, secondaryColorClass, unit = 'unidades' }: { title: string, data: number[], secondaryData?: number[], labels: string[], colorClass: string, secondaryColorClass?: string, unit?: string }) => {
+  const max = Math.max(...data, ...(secondaryData || []), 1);
   return (
-    <div className="bg-white dark:bg-gray-800 p-6 rounded-3xl border border-gray-100 dark:border-gray-700 shadow-sm flex flex-col h-full">
-      <h3 className="text-gray-400 text-[10px] font-black uppercase tracking-[0.2em] mb-6">{title}</h3>
-      <div className="flex-1 flex items-end gap-2 h-32 mb-4">
+    <div className="bg-white dark:bg-gray-800 p-6 rounded-3xl border border-gray-100 dark:border-gray-700 shadow-sm flex flex-col h-full min-h-[320px]">
+      <h3 className="text-gray-400 text-[10px] font-black uppercase tracking-[0.2em] mb-8">{title}</h3>
+      <div className="flex-1 flex items-end gap-4 h-48 mb-6 px-2">
         {data.map((v, i) => (
-          <div key={i} className="flex-1 flex flex-col items-center gap-2 group relative">
-            <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-gray-900 dark:bg-gray-700 text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10 whitespace-nowrap">
-              {v} unidades
+          <div key={i} className="flex-1 flex flex-col items-center gap-3 group relative h-full">
+            <div className="absolute -top-10 left-1/2 -translate-x-1/2 bg-gray-900 dark:bg-gray-700 text-white text-[10px] px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-all transform group-hover:-translate-y-1 pointer-events-none z-10 shadow-xl whitespace-nowrap border border-gray-700 dark:border-gray-600">
+              <span className="font-black">{v}{unit}</span>
+              {secondaryData && <span className="ml-2 opacity-60 border-l border-gray-600 pl-2">Cost: {secondaryData[i]}</span>}
             </div>
-            <div
-              className={`w-full rounded-t-lg transition-all duration-700 ${colorClass} opacity-80 hover:opacity-100`}
-              style={{ height: `${(v/max) * 100}%` }}
-            />
+            <div className="flex w-full items-end gap-1 flex-1 h-full">
+              <div
+                className={`flex-1 rounded-t-md transition-all duration-700 ${colorClass} shadow-sm group-hover:brightness-110 cursor-pointer`}
+                style={{ height: `${Math.max((v/max) * 100, 4)}%` }}
+              />
+              {secondaryData && (
+                <div
+                  className={`flex-1 rounded-t-md transition-all duration-700 ${secondaryColorClass} shadow-sm group-hover:brightness-110 cursor-pointer`}
+                  style={{ height: `${Math.max((secondaryData[i]/max) * 100, 4)}%` }}
+                />
+              )}
+            </div>
+            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-tighter shrink-0">{labels[i]}</span>
           </div>
-        ))}
-      </div>
-      <div className="flex justify-between px-1">
-        {labels.map((l, i) => (
-          <span key={i} className="text-[10px] font-bold text-gray-400 uppercase">{l}</span>
         ))}
       </div>
     </div>
@@ -45,16 +50,16 @@ const PerformanceChart = ({ title, data, labels, colorClass }: { title: string, 
 
 const Dashboard: React.FC = () => {
   const stats = [
-    { label: 'Envíos Activos', value: '24', icon: Package, color: 'text-blue-600', bg: 'bg-blue-50 dark:bg-blue-900/20', trend: '+12%' },
-    { label: 'Vehículos en Ruta', value: '18', icon: Truck, color: 'text-indigo-600', bg: 'bg-indigo-50 dark:bg-indigo-900/20', trend: 'Estable' },
-    { label: 'Conductores', value: '32', icon: Users, color: 'text-emerald-600', bg: 'bg-emerald-50 dark:bg-emerald-900/20', trend: '3 Libres' },
-    { label: 'PODs Pendientes', value: '12', icon: FileText, color: 'text-amber-600', bg: 'bg-amber-50 dark:bg-amber-900/20', trend: 'Revisar' },
+    { label: 'Utilización de Flota', value: '88.4%', icon: Truck, color: 'text-blue-600', bg: 'bg-blue-50 dark:bg-blue-900/20', trend: '+2.4%', trendColor: 'text-emerald-500' },
+    { label: 'Eficiencia Combustible', value: '3.2 km/L', icon: Package, color: 'text-indigo-600', bg: 'bg-indigo-50 dark:bg-indigo-900/20', trend: '-0.1', trendColor: 'text-amber-500' },
+    { label: 'Salud de Vehículos', value: '95%', icon: AlertCircle, color: 'text-emerald-600', bg: 'bg-emerald-50 dark:bg-emerald-900/20', trend: 'Excelente', trendColor: 'text-emerald-500' },
+    { label: 'Entregas a Tiempo', value: '94.2%', icon: Clock, color: 'text-amber-600', bg: 'bg-amber-50 dark:bg-amber-900/20', trend: '+1.2%', trendColor: 'text-emerald-500' },
   ];
 
   const recentAlerts = [
-    { id: 1, type: 'warning', msg: 'Retraso detectado en Ruta PE-1N (V3X-982)', time: 'Hace 5 min' },
-    { id: 2, type: 'success', msg: 'Entrega completada: Minera Arcali (SHP-1002)', time: 'Hace 12 min' },
-    { id: 3, type: 'info', msg: 'Vehículo B4Z-112 ingresó a mantenimiento', time: 'Hace 1 hora' },
+    { id: 1, type: 'critical', msg: 'Exceso de velocidad: V3X-982 (105 km/h) en zona urbana', time: 'Hace 2 min', action: 'Contactar' },
+    { id: 2, type: 'warning', msg: 'Retraso detectado en Ruta PE-1N (SHP-1002)', time: 'Hace 15 min', action: 'Ver Mapa' },
+    { id: 3, type: 'success', msg: 'Mantenimiento preventivo completado: B4Z-112', time: 'Hace 1 hora', action: 'Ficha' },
   ];
 
   return (
@@ -77,7 +82,9 @@ const Dashboard: React.FC = () => {
               <div className={`${stat.bg} ${stat.color} p-4 rounded-2xl group-hover:scale-110 transition-transform`}>
                 <stat.icon className="h-6 w-6" />
               </div>
-              <span className="text-[10px] font-black text-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 px-2 py-1 rounded-lg">{stat.trend}</span>
+              <span className={`text-[10px] font-black ${stat.trendColor} bg-gray-50 dark:bg-gray-900/50 px-2 py-1 rounded-lg border border-gray-100 dark:border-gray-700`}>
+                {stat.trend}
+              </span>
             </div>
             <h3 className="text-gray-400 text-xs font-black uppercase tracking-widest">{stat.label}</h3>
             <p className="text-3xl font-black text-gray-900 dark:text-white tracking-tighter mt-1">{stat.value}</p>
@@ -87,17 +94,48 @@ const Dashboard: React.FC = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <PerformanceChart
-          title="Volumen de Envíos (Semanal)"
+          title="Eficiencia vs Costo Operativo"
           data={[42, 38, 55, 48, 62, 75, 50]}
+          secondaryData={[30, 35, 40, 38, 45, 50, 42]}
           labels={['Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab', 'Dom']}
           colorClass="bg-blue-600"
+          secondaryColorClass="bg-rose-500"
+          unit="envíos"
         />
         <PerformanceChart
           title="Cumplimiento de Entregas (%)"
           data={[92, 88, 95, 94, 98, 91, 96]}
           labels={['Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab', 'Dom']}
           colorClass="bg-indigo-600"
+          unit="%"
         />
+      </div>
+
+      <div className="bg-white dark:bg-gray-800 p-8 rounded-3xl border border-gray-100 dark:border-gray-700 shadow-sm">
+        <h3 className="text-gray-400 text-[10px] font-black uppercase tracking-[0.2em] mb-6">Estado de la Flota</h3>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="flex items-center space-x-4">
+            <div className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+            <div>
+              <p className="text-2xl font-black text-gray-900 dark:text-white tracking-tighter">24</p>
+              <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">En Ruta / Activos</p>
+            </div>
+          </div>
+          <div className="flex items-center space-x-4">
+            <div className="h-2 w-2 rounded-full bg-amber-500" />
+            <div>
+              <p className="text-2xl font-black text-gray-900 dark:text-white tracking-tighter">5</p>
+              <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">En Mantenimiento</p>
+            </div>
+          </div>
+          <div className="flex items-center space-x-4">
+            <div className="h-2 w-2 rounded-full bg-blue-500" />
+            <div>
+              <p className="text-2xl font-black text-gray-900 dark:text-white tracking-tighter">8</p>
+              <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Disponibles / Idle</p>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -114,6 +152,25 @@ const Dashboard: React.FC = () => {
                 <Marker position={[-12.046374, -77.042793]}>
                    <Popup><span className="font-bold">Sede Principal Lima</span></Popup>
                 </Marker>
+                {/* Active Route simulation */}
+                <Polyline
+                   positions={[
+                     [-12.046374, -77.042793],
+                     [-12.065, -77.035],
+                     [-12.085, -77.025],
+                     [-12.122, -77.036]
+                   ]}
+                   color="#3b82f6"
+                   weight={4}
+                   opacity={0.6}
+                   dashArray="10, 10"
+                />
+                <Marker position={[-12.122, -77.036]}>
+                   <Popup><span className="font-bold">Vehículo V3X-982 (En Ruta)</span></Popup>
+                </Marker>
+                <Marker position={[-12.085, -77.025]}>
+                   <Popup><span className="font-bold">Vehículo B4Z-112 (Detenido)</span></Popup>
+                </Marker>
              </MapContainer>
           </div>
         </div>
@@ -124,16 +181,23 @@ const Dashboard: React.FC = () => {
            </h2>
            <div className="bg-white dark:bg-gray-800 rounded-3xl border border-gray-100 dark:border-gray-700 shadow-sm divide-y divide-gray-50 dark:divide-gray-700">
              {recentAlerts.map((alert) => (
-               <div key={alert.id} className="p-5 flex items-start space-x-4 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors cursor-pointer first:rounded-t-3xl last:rounded-b-3xl">
+               <div key={alert.id} className="p-5 flex items-start space-x-4 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors cursor-pointer first:rounded-t-3xl last:rounded-b-3xl group">
                  <div className={
+                   alert.type === 'critical' ? 'text-rose-500' :
                    alert.type === 'warning' ? 'text-amber-500' :
                    alert.type === 'success' ? 'text-emerald-500' : 'text-blue-500'
                  }>
-                   {alert.type === 'warning' ? <Clock className="h-5 w-5" /> :
-                    alert.type === 'success' ? <CheckCircle2 className="h-5 w-5" /> : <AlertCircle className="h-5 w-5" />}
+                   {alert.type === 'critical' ? <AlertCircle className="h-5 w-5 animate-bounce" /> :
+                    alert.type === 'warning' ? <Clock className="h-5 w-5" /> :
+                    alert.type === 'success' ? <CheckCircle2 className="h-5 w-5" /> : <Info className="h-5 w-5" />}
                  </div>
                  <div className="flex-1">
-                   <p className="text-sm font-bold text-gray-800 dark:text-gray-200 leading-tight mb-1">{alert.msg}</p>
+                   <div className="flex justify-between items-start">
+                     <p className="text-sm font-bold text-gray-800 dark:text-gray-200 leading-tight mb-1 pr-4">{alert.msg}</p>
+                     <span className="text-[9px] font-black bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded uppercase tracking-tighter opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                       {alert.action}
+                     </span>
+                   </div>
                    <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">{alert.time}</p>
                  </div>
                </div>
