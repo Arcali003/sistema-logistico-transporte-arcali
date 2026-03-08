@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, Package, Truck, Users, MapPin, LogOut, Bell, Search, Menu, X, Sun, Moon } from 'lucide-react';
+import { LayoutDashboard, Package, Truck, Users, MapPin, LogOut, Bell, Search, Menu, X, Sun, Moon, Gauge, Box } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { useTheme } from '../contexts/ThemeContext';
 import { cn } from '../lib/utils';
@@ -17,6 +17,8 @@ const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     { to: '/vehicles', icon: Truck, label: 'Vehículos' },
     { to: '/drivers', icon: Users, label: 'Conductores' },
     { to: '/tracking', icon: MapPin, label: 'Seguimiento' },
+    { to: '/fleet', icon: Gauge, label: 'Flota' },
+    { to: '/inventory', icon: Box, label: 'Inventario' },
   ];
 
   const handleLogout = () => { logout(); navigate('/login'); };

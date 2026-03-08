@@ -9,6 +9,8 @@ import ShipmentsPage from './pages/ShipmentsPage';
 import VehiclesPage from './pages/VehiclesPage';
 import DriversPage from './pages/DriversPage';
 import TrackingPage from './pages/TrackingPage';
+import FleetPage from './pages/FleetPage';
+import InventoryPage from './pages/InventoryPage';
 
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { user, isLoading } = useAuth();
@@ -33,6 +35,8 @@ const AppRoutes = () => {
       <Route path="/vehicles" element={<ProtectedRoute><VehiclesPage /></ProtectedRoute>} />
       <Route path="/drivers" element={<ProtectedRoute><DriversPage /></ProtectedRoute>} />
       <Route path="/tracking" element={<ProtectedRoute><TrackingPage /></ProtectedRoute>} />
+      <Route path="/fleet" element={<ProtectedRoute><FleetPage /></ProtectedRoute>} />
+      <Route path="/inventory" element={<ProtectedRoute><InventoryPage /></ProtectedRoute>} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );

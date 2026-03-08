@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Package, Plus, Search, Calendar, MapPin, ArrowRight, Download, History, ClipboardList, Info } from 'lucide-react';
+import { Package, Plus, Search, Calendar, MapPin, ArrowRight, Download, History, ClipboardList, Info, Sparkles, Zap } from 'lucide-react';
 import { cn } from '../lib/utils';
 import Modal from '../components/Modal';
 import SidePanel from '../components/SidePanel';
@@ -47,6 +47,10 @@ const ShipmentsPage: React.FC = () => {
     });
   }, [searchTerm, statusFilter, allShipments]);
 
+  const handleOptimize = () => {
+    alert('Iniciando Algoritmo de Optimización Automática de Rutas (Punto 1)...\n\nConsiderando:\n- Tráfico en tiempo real\n- Condiciones climáticas\n- Ventanas horarias de clientes\n- Costo operativo por km');
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
@@ -55,8 +59,12 @@ const ShipmentsPage: React.FC = () => {
           <p className="text-gray-500 dark:text-gray-400 font-medium">Administra y programa las rutas de transporte.</p>
         </div>
         <div className="flex space-x-4">
+          <button onClick={handleOptimize} className="bg-gradient-to-r from-indigo-600 to-blue-600 text-white px-6 py-3 rounded-xl font-bold hover:opacity-90 transition-all flex items-center space-x-2 shadow-lg uppercase tracking-widest text-sm">
+            <Sparkles className="h-5 w-5" />
+            <span>Optimizar con IA</span>
+          </button>
           <button onClick={() => alert('Exportando...')} className="px-4 py-3 rounded-xl border border-gray-100 dark:border-gray-700 font-bold text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700 transition-all flex items-center space-x-2"><Download className="h-4 w-4" /><span className="hidden md:inline uppercase text-xs tracking-widest">Excel</span></button>
-          <button onClick={() => setIsModalOpen(true)} className="bg-blue-600 text-white px-6 py-3 rounded-xl font-bold hover:bg-blue-700 transition-all flex items-center space-x-2 shadow-lg uppercase tracking-widest text-sm"><Plus className="h-5 w-5" /><span>Nueva Orden</span></button>
+          <button onClick={() => setIsModalOpen(true)} className="bg-gray-900 dark:bg-white dark:text-gray-900 text-white px-6 py-3 rounded-xl font-bold hover:opacity-90 transition-all flex items-center space-x-2 shadow-lg uppercase tracking-widest text-sm"><Plus className="h-5 w-5" /><span>Nueva Orden</span></button>
         </div>
       </div>
       <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -102,7 +110,14 @@ const ShipmentsPage: React.FC = () => {
           <div className="space-y-8">
             <div className="bg-blue-50 dark:bg-blue-900/20 p-6 rounded-3xl border border-blue-100 dark:border-blue-900/40"><div className="flex items-center space-x-4 mb-4"><div className="h-12 w-12 bg-blue-600 text-white rounded-2xl flex items-center justify-center"><Package className="h-6 w-6" /></div><div><h4 className="text-xl font-black text-gray-900 dark:text-white uppercase tracking-tighter">{selectedShipment.client}</h4><span className="text-[10px] font-black text-blue-600 uppercase tracking-widest">{selectedShipment.status}</span></div></div><div className="grid grid-cols-2 gap-4"><div><span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Conductor</span><p className="text-sm font-bold text-gray-800 dark:text-gray-200">{selectedShipment.driver}</p></div><div><span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Vehículo</span><p className="text-sm font-bold text-gray-800 dark:text-gray-200">{selectedShipment.vehicle}</p></div></div></div>
             <div className="space-y-4"><h5 className="flex items-center text-sm font-black text-gray-900 dark:text-white uppercase tracking-widest"><ClipboardList className="h-4 w-4 mr-2 text-blue-600" /> Ruta</h5><div className="space-y-6 relative before:absolute before:inset-0 before:ml-2.5 before:h-full before:w-0.5 before:bg-gray-100 dark:before:bg-gray-700"><div className="relative pl-8"><div className="absolute left-0 top-1.5 h-5 w-5 bg-blue-600 rounded-full border-4 border-white dark:border-gray-800"></div><p className="text-sm font-bold text-gray-800 dark:text-gray-200">{selectedShipment.origin}</p><p className="text-[10px] font-bold text-gray-400 uppercase">Carga</p></div><div className="relative pl-8"><div className="absolute left-0 top-1.5 h-5 w-5 bg-gray-200 dark:bg-gray-700 rounded-full border-4 border-white dark:border-gray-800"></div><p className="text-sm font-bold text-gray-500">{selectedShipment.destination}</p><p className="text-[10px] font-bold text-gray-400 uppercase">Entrega</p></div></div></div>
-            <div className="pt-6 border-t border-gray-100 dark:border-gray-700 flex flex-col space-y-3"><button className="w-full py-4 bg-gray-900 dark:bg-white dark:text-gray-900 text-white rounded-2xl font-black text-xs uppercase tracking-widest flex items-center justify-center space-x-2"><Info className="h-4 w-4" /><span>Ver en Mapa</span></button><button className="w-full py-4 bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 text-gray-600 dark:text-gray-300 rounded-2xl font-black text-xs uppercase tracking-widest flex items-center justify-center space-x-2"><History className="h-4 w-4" /><span>Historial</span></button></div>
+            <div className="pt-6 border-t border-gray-100 dark:border-gray-700 flex flex-col space-y-3">
+              <button onClick={() => alert('Punto 2: Despacho inteligente asignando automáticamente Conductor, Vehículo y Ruta')} className="w-full py-4 bg-blue-600 text-white rounded-2xl font-black text-xs uppercase tracking-widest flex items-center justify-center space-x-2 shadow-lg shadow-blue-200">
+                <Zap className="h-4 w-4" />
+                <span>Despacho Inteligente</span>
+              </button>
+              <button className="w-full py-4 bg-gray-900 dark:bg-white dark:text-gray-900 text-white rounded-2xl font-black text-xs uppercase tracking-widest flex items-center justify-center space-x-2"><Info className="h-4 w-4" /><span>Ver en Mapa</span></button>
+              <button className="w-full py-4 bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 text-gray-600 dark:text-gray-300 rounded-2xl font-black text-xs uppercase tracking-widest flex items-center justify-center space-x-2"><History className="h-4 w-4" /><span>Historial</span></button>
+            </div>
           </div>
         )}
       </SidePanel>
