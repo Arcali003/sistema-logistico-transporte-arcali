@@ -88,3 +88,47 @@
 - `file_type`: String (e.g., POD, INVOICE)
 - `uploaded_by`: UUID (Keycloak Sub)
 - `created_at`: Timestamp
+
+## Entidades Extendidas (Fase 2)
+
+### FuelLogs
+- `id`: UUID (PK)
+- `vehicle_id`: UUID (FK -> Vehicles)
+- `date`: Timestamp
+- `quantity_liters`: Float
+- `cost`: Float
+- `odometer_reading`: Float
+- `location`: Geometry(Point, 4326)
+
+### MaintenanceLogs
+- `id`: UUID (PK)
+- `vehicle_id`: UUID (FK -> Vehicles)
+- `type`: Enum (PREVENTIVE, CORRECTIVE, PREDICTIVE)
+- `description`: Text
+- `scheduled_date`: Date
+- `completion_date`: Date
+- `cost`: Float
+
+### Warehouses (Almacenes)
+- `id`: UUID (PK)
+- `name`: String
+- `address`: String
+- `coordinates`: Geometry(Point, 4326)
+
+### InventoryItems
+- `id`: UUID (PK)
+- `warehouse_id`: UUID (FK -> Warehouses)
+- `name`: String
+- `sku`: String (Unique)
+- `quantity`: Float
+- `unit`: String (e.g., KG, UNIDADES)
+- `last_stock_take`: Timestamp
+
+### Notifications
+- `id`: UUID (PK)
+- `user_id`: UUID (Keycloak Sub)
+- `type`: Enum (EMAIL, SMS, PUSH)
+- `subject`: String
+- `body`: Text
+- `status`: Enum (PENDING, SENT, FAILED)
+- `created_at`: Timestamp
