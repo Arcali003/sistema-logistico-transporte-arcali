@@ -37,3 +37,13 @@ El Dashboard debe ser completo e incluir:
 - **Mapa de Seguimiento**: Vista rápida de la flota.
 - **Alertas**: Retrasos, mantenimientos de vehículos y vencimientos de licencias.
 - **Actividad Reciente**: Historial de movimientos.
+
+## Roadmap de Futuras Funcionalidades (Fase 2)
+Para evolucionar el sistema hacia una solución logística integral, se proponen los siguientes módulos:
+
+1. **Inteligencia Artificial**: Optimización de rutas y predicción de retrasos.
+2. **Telemetría Avanzada**: Monitoreo GPS detallado y control de combustible.
+3. **Mantenimiento**: Gestión de alertas predictivas para la flota.
+4. **Gestión de Stock**: Control de inventario y almacenes integrados.
+5. **Comunicaciones**: Notificaciones automáticas a clientes y conductores.
+6. **Analytics (BI)**: Panel avanzado de indicadores de rendimiento y rentabilidad.

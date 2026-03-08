@@ -66,12 +66,12 @@ const Dashboard: React.FC = () => {
     <div className="space-y-8 animate-in fade-in duration-700">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-4xl font-black text-gray-900 dark:text-white tracking-tighter">Panel de Control</h1>
-          <p className="text-gray-500 dark:text-gray-400 font-bold uppercase text-xs tracking-widest mt-1">Arcali Logistics v1.0 • Sistema de Gestión</p>
+          <h1 className="text-4xl font-black text-gray-900 dark:text-white tracking-tighter">Business Intelligence</h1>
+          <p className="text-gray-500 dark:text-gray-400 font-bold uppercase text-xs tracking-widest mt-1">SLTA SaaS Enterprise • Visión General de Operaciones</p>
         </div>
         <div className="flex bg-white dark:bg-gray-800 p-1 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700">
-          <button className="px-4 py-2 bg-blue-600 text-white rounded-xl text-xs font-black uppercase tracking-widest shadow-lg transition-all">Hoy</button>
-          <button className="px-4 py-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 rounded-xl text-xs font-black uppercase tracking-widest transition-all">Semana</button>
+          <button className="px-4 py-2 bg-blue-600 text-white rounded-xl text-xs font-black uppercase tracking-widest shadow-lg transition-all">Tiempo Real</button>
+          <button className="px-4 py-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 rounded-xl text-xs font-black uppercase tracking-widest transition-all">Reportes</button>
         </div>
       </div>
 
@@ -103,8 +103,8 @@ const Dashboard: React.FC = () => {
           unit="envíos"
         />
         <PerformanceChart
-          title="Cumplimiento de Entregas (%)"
-          data={[92, 88, 95, 94, 98, 91, 96]}
+          title="Consumo de Combustible (Gal/Km)"
+          data={[8.2, 7.8, 8.5, 8.1, 7.5, 7.2, 7.9]}
           labels={['Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab', 'Dom']}
           colorClass="bg-indigo-600"
           unit="%"
@@ -142,15 +142,15 @@ const Dashboard: React.FC = () => {
         <div className="lg:col-span-2 space-y-4">
           <div className="flex items-center justify-between px-2">
             <h2 className="text-xl font-black text-gray-900 dark:text-white uppercase tracking-tighter flex items-center">
-              <MapIcon className="h-5 w-5 mr-2 text-blue-600" /> Vista en Tiempo Real
+              <MapIcon className="h-5 w-5 mr-2 text-blue-600" /> Control de Activos en Red
             </h2>
-            <button className="text-[10px] font-black text-blue-600 uppercase tracking-widest hover:underline">Ver pantalla completa</button>
+            <button className="text-[10px] font-black text-blue-600 uppercase tracking-widest hover:underline">Abrir Centro de Monitoreo</button>
           </div>
           <div className="h-[400px] bg-white dark:bg-gray-800 rounded-3xl overflow-hidden border border-gray-100 dark:border-gray-700 shadow-inner z-0">
              <MapContainer center={[-12.046374, -77.042793]} zoom={12} style={{ height: '100%', width: '100%' }}>
                 <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
                 <Marker position={[-12.046374, -77.042793]}>
-                   <Popup><span className="font-bold">Sede Principal Lima</span></Popup>
+                   <Popup><span className="font-bold">Centro de Distribución - Lima</span></Popup>
                 </Marker>
                 {/* Active Route simulation */}
                 <Polyline
@@ -177,7 +177,7 @@ const Dashboard: React.FC = () => {
 
         <div className="space-y-4">
            <h2 className="text-xl font-black text-gray-900 dark:text-white uppercase tracking-tighter px-2 flex items-center">
-             <AlertCircle className="h-5 w-5 mr-2 text-amber-500" /> Alertas del Sistema
+             <AlertCircle className="h-5 w-5 mr-2 text-amber-500" /> Eventos Criticos
            </h2>
            <div className="bg-white dark:bg-gray-800 rounded-3xl border border-gray-100 dark:border-gray-700 shadow-sm divide-y divide-gray-50 dark:divide-gray-700">
              {recentAlerts.map((alert) => (
@@ -202,7 +202,7 @@ const Dashboard: React.FC = () => {
                  </div>
                </div>
              ))}
-             <button onClick={() => alert('Todas las alertas')} className="w-full py-4 text-[10px] font-black text-gray-400 hover:text-blue-600 uppercase tracking-[0.2em] transition-colors">Ver todas las notificaciones</button>
+             <button onClick={() => alert('Todas las alertas')} className="w-full py-4 text-[10px] font-black text-gray-400 hover:text-blue-600 uppercase tracking-[0.2em] transition-colors">Historial de Telemetría</button>
            </div>
         </div>
       </div>
