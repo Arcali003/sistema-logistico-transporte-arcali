@@ -1,6 +1,7 @@
-# PRD - Sistema Logístico de Transporte (MVP)
+# PRD - Sistema Logístico de Transporte "Arcali" (MVP)
 
 ## Introducción
+Este sistema está diseñado para la empresa de transporte **Arcali**.
 Este documento define el Producto Mínimo Viable (MVP) para el sistema logístico de una empresa de transporte. El sistema permitirá la gestión de órdenes, despacho, seguimiento por GPS en tiempo real y gestión de documentos (POD).
 
 ## Objetivos del MVP
@@ -29,3 +30,10 @@ Este documento define el Producto Mínimo Viable (MVP) para el sistema logístic
 - Persistencia de datos en PostgreSQL/PostGIS.
 - Procesamiento asíncrono de puntos GPS.
 - Almacenamiento de archivos en MinIO.
+
+## Dashboard Principal
+El Dashboard debe ser completo e incluir:
+- **Tarjetas de KPIs**: Envíos Activos, Vehículos en Ruta, Conductores Disponibles, PODs Pendientes.
+- **Mapa de Seguimiento**: Vista rápida de la flota.
+- **Alertas**: Retrasos, mantenimientos de vehículos y vencimientos de licencias.
+- **Actividad Reciente**: Historial de movimientos.

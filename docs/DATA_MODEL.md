@@ -15,6 +15,9 @@
 - `plate`: String (Unique)
 - `model`: String
 - `brand`: String
+- `type`: Enum (CAMA_BAJA, CAMA_CUNA, PLATAFORMA)
+- `axles`: Integer (1-4)
+- `property_card`: String
 - `capacity_kg`: Float
 - `status`: Enum (ACTIVE, MAINTENANCE, INACTIVE)
 - `created_at`: Timestamp
@@ -23,7 +26,9 @@
 - `id`: UUID (PK)
 - `first_name`: String
 - `last_name`: String
-- `license_number`: String (Unique)
+- `dni`: String (Unique)
+- `license_number`: String (Unique, Brevete)
+- `sctr`: String
 - `phone`: String
 - `status`: Enum (AVAILABLE, BUSY, OFF_DUTY)
 - `created_at`: Timestamp
