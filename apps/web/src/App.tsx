@@ -42,7 +42,7 @@ function App() {
   return (
     <ThemeProvider>
       <AuthProvider>
-        <BrowserRouter>
+        <BrowserRouter basename="/sistema-logistico-transporte-arcali/">
           <AppRoutes />
         </BrowserRouter>
       </AuthProvider>
