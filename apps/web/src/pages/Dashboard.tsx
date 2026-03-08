@@ -1,5 +1,5 @@
 import React from 'react';
-import { Truck, Users, Package, Map as MapIcon, FileText, AlertCircle, Clock, CheckCircle2, TrendingUp, BarChart3 } from 'lucide-react';
+import { Truck, Users, Package, Map as MapIcon, FileText, AlertCircle, Clock, CheckCircle2 } from 'lucide-react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
