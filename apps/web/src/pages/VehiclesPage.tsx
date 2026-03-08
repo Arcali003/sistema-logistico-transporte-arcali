@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Truck, Plus, Search, Filter, Settings, AlertTriangle, ShieldCheck, FileText } from 'lucide-react';
+import { Truck, Plus, Search, Filter, Settings, AlertTriangle, ShieldCheck } from 'lucide-react';
 import { cn } from '../lib/utils';
 import Modal from '../components/Modal';
 import SidePanel from '../components/SidePanel';
